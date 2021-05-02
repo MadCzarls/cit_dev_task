@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     container.dumper.inline_factories: true
+    openweathermap.host: 'http://api.openweathermap.org/data/2.5/weather'
+    openweathermap.apiKey: 'd062b486fe732d5de082d158fd303408'
+#    openweathermap.apiKey: 'faa693e7f9feb4802586f40ecd1493d8'
+    openweathermap.http_method: 'GET'
 
 services:
     # default configuration for services in *this* file
@@ -21,12 +25,21 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/RequestApi/'
+            - '../src/Exception/'
+            - '../src/Enum/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\RequestApi\Client\:
+        resource: '../src/RequestApi/Client/'
+
+    App\Factory\OpenWeatherMap\Factory: ~
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

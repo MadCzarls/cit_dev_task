@@ -1,33 +1,21 @@
 # Description
 
-Symfony 5 project template running on Docker (utilizing docker-compose) with PHP 8.0 + nginx 1.19 + MySQL 8.0. By default includes xdebug extension and PHP_CodeSniffer for easy development and basic configuration for opcache for production. Includes instruction for setting it in PhpStorm.
+Please create a simple Laravel/Symfony/(Any other framework you like) site where a user will be able to provide his city and country via form and after submission system will display current weather forecast.
 
-- https://symfony.com/
-- https://www.docker.com/
-- https://docs.docker.com/compose/
-- https://www.php.net/
-- https://www.nginx.com/
-- https://www.mysql.com/
-- https://xdebug.org/
-- https://github.com/squizlabs/PHP_CodeSniffer
-- https://www.php.net/manual/en/intro.opcache.php
-- https://www.jetbrains.com/phpstorm/
+Forecast temperature should be calculated as an average based on different APIs, at least 2 different data sources (ex. API1 will return temperature 25, API2 will return temperature 27 so the result should be 25+27/2 ie. 26)
+Feel free to use https://openweathermap.org/API and any other API you like.
+Few notes:
+- please implement proper error handling
+- results should be stored in the database
+- a simple caching mechanism should be added
+- ability to easily add new data sources (how to register them, interfaces etc.)
+- clean data separation
+- nice to have - latest PHP mechanisms (ex. traits)
 
-Clone and tweak it to your needs. Tested on Linux (Ubuntu):
+Tested on Linux (Ubuntu):
 
 1. Docker version 20.10.3, build 48d30b5
 1. docker-compose version 1.28.4, build cabd5cfb
-
-and Windows 10:
-
-1. Use `Docker for Windows`, at least version `3.2.1`.
-1. Switch to `Linux containers`.
-1. Go to `Settings` -> `Docker Engine` and set `experimental mode` to `true`.
-
-# TODO
-
-1. scripts - move container name to ENV and use it in scripts;
-1. change based distros (eg. Ubuntu) for something more lightweight.
 
 # Usage
 
