@@ -14,8 +14,8 @@ interface RequestBuilderInterface
     public function addHeader(string $name, string $value): self;
 
     public function setUrl(string $url): self;
-// @TODO remove if unnecesary
-//    public function setBody(?string $body): self;
 
     public function build(): RequestInterface;
+    
+    public function reset(): void;
 }

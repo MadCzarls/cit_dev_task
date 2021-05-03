@@ -20,14 +20,10 @@ class SymfonyHttpClient implements ClientInterface
 
     public function execute(RequestInterface $request): ResponseInterface
     {
-        //@TODO include headers
-        //@TODO handle errors if any
         $response = $this->client->request(
             $request->getHttpMethodEnum()->getValue(),
             $request->getUrl(),
         );
-        
-        $t = 1;
 
         return new Response($response->getStatusCode(), $response->getContent());
     }

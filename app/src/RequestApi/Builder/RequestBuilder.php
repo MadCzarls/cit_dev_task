@@ -45,23 +45,11 @@ class RequestBuilder implements RequestBuilderInterface
         return $this;
     }
 
-    // @TODO remove if unnecesary
-//    public function setBody(?string $body): self
-//    {
-//        $this->body = $body;
-//
-//        return $this;
-//    }
-
     protected function validate(): void
     {
         if (empty($this->getHttpMethod())) {
             throw new RequestParameterException('Missing request parameter: httpMethod');
         }
-// @TODO remove if unnecesary
-//        if ((string) $this->getHttpMethod() === RequestHttpMethodEnum::GET && ! empty($this->getBody())) {
-//            throw new RequestParameterException('Body cannot be set for request with method GET');
-//        }
 
         if (empty($this->getUrl())) {
             throw new RequestParameterException('Missing request parameter: url');
@@ -84,11 +72,6 @@ class RequestBuilder implements RequestBuilderInterface
     {
         return $this->headers;
     }
-// @TODO remove if unnecesary
-//    protected function getBody(): ?string
-//    {
-//        return $this->body;
-//    }
 
     protected function getUrl(): ?string
     {
@@ -100,5 +83,13 @@ class RequestBuilder implements RequestBuilderInterface
         $this->validate();
 
         return new Request($this->getHttpMethod(), $this->getUrl(), $this->getHeaders());
+    }
+
+    public function reset(): void
+    {
+        $this->method = null;
+        $this->url = null;
+        $this->body = null;
+        $this->headers = [];
     }
 }

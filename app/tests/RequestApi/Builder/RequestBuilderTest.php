@@ -98,21 +98,6 @@ class RequestBuilderTest extends TestCase
     public function validationThrowsExceptionDataProvider(): array
     {
         return [
-            // @TODO remove if unnecesary
-//            'setting body for GET request' => [
-//                [
-//                    'httpMethod' => RequestHttpMethodEnum::from(RequestHttpMethodEnum::GET),
-//                    'url' => 'https://internet.com',
-//                    'headers' => [
-//                        [
-//                            'name' => 'Connection',
-//                            'value' => 'keep-alive',
-//                        ],
-//                    ],
-//                    'body' => 'param1=valueParam1&param2=valueParam2',
-//                ],
-//                'Body cannot be set for request with method GET',
-//            ],
             'url not set' => [
                 [
                     'httpMethod' => RequestHttpMethodEnum::from(RequestHttpMethodEnum::GET),
@@ -162,11 +147,6 @@ class RequestBuilderTest extends TestCase
         if (isset($builderParams['url'])) {
             $builder->setUrl($builderParams['url']);
         }
-
-// @TODO remove if unnecesary
-//        if (isset($builderParams['body'])) {
-//            $builder->setBody($builderParams['body']);
-//        }
 
         if (!isset($builderParams['headers'])) {
             return;

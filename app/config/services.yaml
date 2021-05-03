@@ -5,16 +5,16 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     container.dumper.inline_factories: true
-    openweathermap.host: 'http://api.openweathermap.org/data/2.5/weather'
-    openweathermap.apiKey: 'd062b486fe732d5de082d158fd303408'
-#    openweathermap.apiKey: 'faa693e7f9feb4802586f40ecd1493d8'
-    openweathermap.http_method: 'GET'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    _instanceof:
+        App\Factory\Weather\FactoryInterface:
+            tags: ['app.temperature_api_factory']
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -28,6 +28,8 @@ services:
             - '../src/RequestApi/'
             - '../src/Exception/'
             - '../src/Enum/'
+            - '../src/Factory/'
+            - '../src/Weather/ApiHandler.php'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -38,8 +40,23 @@ services:
     App\RequestApi\Client\:
         resource: '../src/RequestApi/Client/'
 
-    App\Factory\OpenWeatherMap\Factory: ~
+    App\Factory\Weather\OpenWeather\Factory:
+        arguments:
+            $name: '%env(API_OPENWEATHER_NAME)%'
+            $host: '%env(API_OPENWEATHER_HOST)%'
+            $apiKey: '%env(API_OPENWEATHER_API_KEY)%'
+            $httpMethod: '%env(API_OPENWEATHER_HTTP_METHOD)%'
+            $measurementUnit: '%env(API_OPENWEATHER_MEASUREMENT_UNIT)%'
 
+    App\Factory\Weather\Weatherbit\Factory:
+        arguments:
+            $name: '%env(API_WEATHERBIT_NAME)%'
+            $host: '%env(API_WEATHERBIT_HOST)%'
+            $apiKey: '%env(API_WEATHERBIT_API_KEY)%'
+            $httpMethod: '%env(API_WEATHERBIT_HTTP_METHOD)%'
+
+    App\Weather\ApiHandler:
+        arguments: [!tagged { tag: 'app.temperature_api_factory' }]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
