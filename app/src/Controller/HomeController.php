@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DTO\Weather\CountryCity;
+use App\Exception\TemperatureNotCalculatedException;
 use App\Form\Weather\CountryCityType;
-use App\Weather\ApiHandler;
-use App\Weather\TemperatureCalculator;
+use App\Weather\TemperatureHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,29 +18,21 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(
         Request $request,
-        ApiHandler $apiHandler,
-        TemperatureCalculator $temperatureCalculator
+        TemperatureHandler $temperatureHandler
     ): Response {
-        $errors = [];
         $temperature = null;
         $countryCityDTO = new CountryCity();
         $form = $this->createForm(CountryCityType::class, $countryCityDTO);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $apiResults = $apiHandler->getResults($form->getData());
-
-            if (empty($apiResults)) {
-                $errors[] = 'No results, please try again later or contact system administrator';
-            } else {
-                foreach ($apiResults as $result) {
-                    $temperatureCalculator->add($result);
-                }
-
-                $temperature = $temperatureCalculator->calculate();
+            try {
+                $temperature = $temperatureHandler->getTemperature($form->getData());
+            } catch (TemperatureNotCalculatedException $exception) {
+                $this->addFlash('error', 'Temperature could not be calculated, please contact system administrator');
             }
 
-            //@TODO CacheHandler, db persisiting,
+            //@TODO db persisiting
         }
 
         return $this->render(
@@ -48,7 +40,6 @@ class HomeController extends AbstractController
             [
                 'form' => $form->createView(),
                 'temperature' => $temperature,
-                'errors' => $errors,
             ]
         );
     }

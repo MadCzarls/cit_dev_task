@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AppController!{% endblock %}
+{% block title %}CTI DEV TASK{% endblock %}
 
 {% block body %}
     <style>
@@ -28,17 +28,6 @@
 
         {% if temperature is not null %}
             Average temperature int this location: <code>{{ temperature }}°C</code>
-        {% endif %}
-
-        {% if errors|length > 0 %}
-            Errors occured:
-            <ul>
-                {% for error in errors %}
-                    <li>
-                        <code>{{ error }}</code>
-                    </li>
-                {% endfor %}
-            </ul>
         {% endif %}
 
     </div>
