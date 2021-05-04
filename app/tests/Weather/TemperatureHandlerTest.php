@@ -26,6 +26,11 @@ class TemperatureHandlerTest extends TestCase
     public function testGetTemperatureGetsResultFromCacheIfPresent(): void
     {
         $countryCity = $this->createStub(CountryCity::class);
+        $countryCity
+            ->method('getCountry')->willReturn('DE');
+        $countryCity
+            ->method('getCity')->willReturn('Berlin');
+
         $item = $this->createMock(ItemInterface::class);
         $this->cache->method('getItem')->willReturn($item);
 
@@ -49,6 +54,11 @@ class TemperatureHandlerTest extends TestCase
     public function testGetTemperatureSavesInCache(): void
     {
         $countryCity = $this->createStub(CountryCity::class);
+        $countryCity
+            ->method('getCountry')->willReturn('DE');
+        $countryCity
+            ->method('getCity')->willReturn('Berlin');
+        
         $apiResult = $this->createStub(TemperatureResult::class);
         $this->apiHandler->method('getResults')->willReturn([$apiResult]);
         $item = $this->createStub(ItemInterface::class);

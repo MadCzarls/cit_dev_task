@@ -7,7 +7,11 @@ namespace App\Controller;
 use App\DTO\Weather\CountryCity;
 use App\Exception\TemperatureNotCalculatedException;
 use App\Form\Weather\CountryCityType;
+use App\Repository\TemperatureResultRepository;
 use App\Weather\TemperatureHandler;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +22,9 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(
         Request $request,
-        TemperatureHandler $temperatureHandler
+        LoggerInterface $logger,
+        TemperatureHandler $temperatureHandler,
+        TemperatureResultRepository $repository
     ): Response {
         $temperature = null;
         $countryCityDTO = new CountryCity();
@@ -27,12 +33,28 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $temperature = $temperatureHandler->getTemperature($form->getData());
+                $result = $temperatureHandler->getTemperature($form->getData());
             } catch (TemperatureNotCalculatedException $exception) {
-                $this->addFlash('error', 'Temperature could not be calculated, please contact system administrator');
+                $this->addFlash(
+                    'error',
+                    'Temperature could not be calculated, please contact system administrator'
+                );
+
+                return $this->redirectToRoute('home');
             }
 
-            //@TODO db persisiting
+            try {
+                $repository->insert(
+                    $result->getCountry(),
+                    $result->getCity(),
+                    $result->getTemperature(),
+                    $result->isFromCache()
+                );
+            } catch (ORMException | OptimisticLockException $exception) {
+                $logger->error($exception->getMessage());
+            }
+
+            $temperature = $result->getTemperature();
         }
 
         return $this->render(

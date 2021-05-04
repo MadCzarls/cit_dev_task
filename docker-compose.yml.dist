@@ -2,21 +2,19 @@ version:  '3.8'
 
 services:
     db:
-        image: mysql:8.0
+        image: postgres:9.6.21-alpine
         container_name: 'cit.db'
         restart: on-failure
-        command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--default-authentication-plugin=mysql_native_password']
         cap_add:
             - SYS_NICE
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: app
-            MYSQL_USER: app_user
-            MYSQL_PASSWORD: app_pass
+            POSTGRES_DB: cit
+            POSTGRES_USER: cit
+            POSTGRES_PASSWORD: cit
         volumes:
-            - './bin/mysql/:/var/lib/mysql'
+            - './bin/postgresql/:/var/lib/postgresql/data'
         ports:
-            - '33306:3306'
+            - '5432:5432'
         networks:
             - cit_network
 

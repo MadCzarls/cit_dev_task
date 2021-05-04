@@ -6,9 +6,9 @@ namespace App\Weather;
 
 use App\Cache\CacheHandler;
 use App\DTO\Weather\CountryCity;
+use App\DTO\Weather\TemperatureHandlerResult;
 use App\Exception\TemperatureNotCalculatedException;
 
-use function dd;
 use function md5;
 use function strtolower;
 
@@ -28,13 +28,18 @@ class TemperatureHandler
         $this->temperatureCalculator = $temperatureCalculator;
     }
 
-    public function getTemperature(CountryCity $countryCity): float
+    public function getTemperature(CountryCity $countryCity): TemperatureHandlerResult
     {
         $cacheKey = $this->generateCacheKey($countryCity->getCountry() . $countryCity->getCity());
         $cacheItem = $this->cacheHandler->getCache()->getItem($cacheKey);
 
         if ($cacheItem->isHit()) {
-            return $cacheItem->get();
+            return new TemperatureHandlerResult(
+                $cacheItem->get(),
+                $countryCity->getCountry(),
+                $countryCity->getCity(),
+                true
+            );
         }
 
         $apiResults = $this->apiHandler->getResults($countryCity);
@@ -52,7 +57,11 @@ class TemperatureHandler
         $cacheItem->set($temperature);
         $this->cacheHandler->getCache()->save($cacheItem);
 
-        return $temperature;
+        return new TemperatureHandlerResult(
+            $temperature,
+            $countryCity->getCountry(),
+            $countryCity->getCity()
+        );
     }
 
     private function generateCacheKey(string $base): string
