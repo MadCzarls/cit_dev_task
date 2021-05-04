@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Weather;
 
+use App\Cache\CacheHandler;
 use App\DTO\Weather\CountryCity;
 use App\Exception\TemperatureNotCalculatedException;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+
+use function dd;
+use function md5;
+use function strtolower;
 
 class TemperatureHandler
 {
-    //@TODO unitests
-
-    private const CACHE_POOL = 'cache.app';
-    private const CACHE_LIFETIME = 60;
-
-    private FilesystemAdapter $cache;
+    private CacheHandler $cacheHandler;
     private ApiHandler $apiHandler;
     private TemperatureCalculator $temperatureCalculator;
 
     public function __construct(
+        CacheHandler $cacheHandler,
         ApiHandler $apiHandler,
         TemperatureCalculator $temperatureCalculator
     ) {
-        $this->cache = new FilesystemAdapter(self::CACHE_POOL, self::CACHE_LIFETIME);
+        $this->cacheHandler = $cacheHandler;
         $this->apiHandler = $apiHandler;
         $this->temperatureCalculator = $temperatureCalculator;
     }
@@ -31,7 +31,7 @@ class TemperatureHandler
     public function getTemperature(CountryCity $countryCity): float
     {
         $cacheKey = $this->generateCacheKey($countryCity->getCountry() . $countryCity->getCity());
-        $cacheItem = $this->cache->getItem($cacheKey);
+        $cacheItem = $this->cacheHandler->getCache()->getItem($cacheKey);
 
         if ($cacheItem->isHit()) {
             return $cacheItem->get();
@@ -50,7 +50,7 @@ class TemperatureHandler
         $temperature = $this->temperatureCalculator->calculate();
 
         $cacheItem->set($temperature);
-        $this->cache->save($cacheItem);
+        $this->cacheHandler->getCache()->save($cacheItem);
 
         return $temperature;
     }
