@@ -24,10 +24,11 @@ COPY config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 ARG ENV
 
 RUN if [ "$ENV" = "dev" ] ; then \
-        pecl install xdebug-3.0.2 && \
+        pecl install xdebug-3.0.3 && \
         docker-php-ext-enable xdebug  \
     ; fi
 
+COPY config/docker-php-memlimit.ini /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 COPY config/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"

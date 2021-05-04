@@ -23,7 +23,7 @@ Currently using API:
 - https://openweathermap.org/api
 - https://www.weatherbit.io/api
 
-Before you can use this application you need to register and get API keys for them. After that clone this repository, `cd` inside, create `docker-compose.yml` based on `docker-compose.yml.dist` with `cp docker-compose.yml.dist docker-compose.yml` command. If needed, change configuration according to the comments inside. Then define **ALL ENVIRONMENT VARIABLES** in the correct file (based on your ENV, eg. `docker/php/.env.app.[dev/prod]`) and run afterwards:
+Before you can use this application you need to register and get API keys for them. After that clone this repository, `cd` inside, create `docker-compose.yml` based on `docker-compose.yml.dist` with `cp docker-compose.yml.dist docker-compose.yml` command. If needed, change configuration according to the comments inside. Then define **ALL ENVIRONMENT VARIABLES** in the correct file (based on your ENV, eg. `docker/php/.env.app.[dev/prod]`). You can change PHP memory limit in `docker/php/config/docker-php-memlimit.init` file if you want. Afterwards run:
 
 <pre>
 docker-compose build
