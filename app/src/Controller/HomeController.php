@@ -37,7 +37,7 @@ class HomeController extends AbstractController
             } catch (TemperatureNotCalculatedException $exception) {
                 $this->addFlash(
                     'error',
-                    'Temperature could not be calculated, please contact system administrator'
+                    'No results have been returned'
                 );
 
                 return $this->redirectToRoute('home');

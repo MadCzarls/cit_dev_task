@@ -138,6 +138,9 @@ class RequestBuilderTest extends TestCase
         ];
     }
 
+    /**
+     * @param mixed[] $builderParams
+     */
     private function setBuilderData(RequestBuilderInterface $builder, array $builderParams): void
     {
         if (isset($builderParams['httpMethod'])) {

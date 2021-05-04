@@ -7,9 +7,9 @@ namespace App\RequestApi\Http;
 class Response implements ResponseInterface
 {
     private int $statusCode;
-    private string $body;
+    private ?string $body;
 
-    public function __construct(int $statusCode, string $body)
+    public function __construct(int $statusCode, ?string $body)
     {
         $this->statusCode = $statusCode;
         $this->body = $body;
@@ -20,7 +20,7 @@ class Response implements ResponseInterface
         return $this->statusCode;
     }
 
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }

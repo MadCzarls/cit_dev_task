@@ -7,6 +7,7 @@ namespace App\Weather;
 use App\DTO\Weather\TemperatureResult;
 
 use function count;
+use function round;
 
 class TemperatureCalculator
 {

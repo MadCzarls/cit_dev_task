@@ -58,7 +58,7 @@ class TemperatureHandlerTest extends TestCase
             ->method('getCountry')->willReturn('DE');
         $countryCity
             ->method('getCity')->willReturn('Berlin');
-        
+
         $apiResult = $this->createStub(TemperatureResult::class);
         $this->apiHandler->method('getResults')->willReturn([$apiResult]);
         $item = $this->createStub(ItemInterface::class);

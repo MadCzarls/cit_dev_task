@@ -58,6 +58,7 @@ class TemperatureHandler
         $this->cacheHandler->getCache()->save($cacheItem);
 
         return new TemperatureHandlerResult(
+            //may also persist API identifiers from results (available from $result->getApiIdentifier())
             $temperature,
             $countryCity->getCountry(),
             $countryCity->getCity()

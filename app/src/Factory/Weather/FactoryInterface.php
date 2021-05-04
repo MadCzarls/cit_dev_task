@@ -7,7 +7,7 @@ namespace App\Factory\Weather;
 interface FactoryInterface
 {
     public function getName(): string;
-    
+
     public function createRequestHandler(): RequestHandlerInterface;
 
     public function createResponseHandler(): ResponseHandlerInterface;

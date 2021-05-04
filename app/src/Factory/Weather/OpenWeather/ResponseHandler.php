@@ -14,8 +14,9 @@ class ResponseHandler extends AbstractResponseHandler
 {
     public function handle(ResponseInterface $response): TemperatureResult
     {
+        //@TODO handle correct json
         $content = json_decode($response->getBody(), true, flags: JSON_THROW_ON_ERROR);
-        $temperature = (float)$content['main']['temp'];
+        $temperature = (float) $content['main']['temp'];
 
         return new TemperatureResult($this->name, $temperature);
     }
