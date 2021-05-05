@@ -19,18 +19,18 @@ Tested on Linux (Ubuntu):
 
 # Usage
 
-Currently using API:
+Currently used APIs:
 - https://openweathermap.org/api
 - https://www.weatherbit.io/api
 
-Before you can use this application you need to register and get API keys for them. After that clone this repository, `cd` inside, create `docker-compose.yml` based on `docker-compose.yml.dist` with `cp docker-compose.yml.dist docker-compose.yml` command. If needed, change configuration according to the comments inside. Then define **ALL ENVIRONMENT VARIABLES** in the correct file (based on your ENV, eg. `docker/php/.env.app.[dev/prod]`). You can change PHP memory limit in `docker/php/config/docker-php-memlimit.init` file if you want. Afterwards run:
+Before you can use this application you need to register and get API keys for them. After that clone this repository, `cd` inside, create `docker-compose.yml` based on `docker-compose.yml.dist` with `cp docker-compose.yml.dist docker-compose.yml` command. If needed, change configuration according to the comments inside. Then define **ALL ENVIRONMENT VARIABLES** in the correct file (based on your ENV, eg. `docker/php/.env.app.[dev/prod]`). You can also change PHP memory limit in `docker/php/config/docker-php-memlimit.init` file if you want. Afterwards run:
 
 <pre>
 docker-compose build
 docker-compose up
 </pre>
 
-After that log into container with `docker exec -it app.php bash`, where `app.php` is the default container name from `docker-compose.yml.dist`. Then run:
+After that log into container with `docker exec -it cit.php bash`, where `cit.php` is the default container name from `docker-compose.yml.dist`. Then run:
 
 <pre>
 composer install
@@ -71,7 +71,7 @@ Open `Database` section on the right bar of IDE -> `Data Source` -> `Postgre` ->
 ### PHPUnit
 
 1. Copy `phpunit.xml.dist` into `phpunit.xml`.
-1. Login into `mint_2.php` container and run `./bin/phpunit`.
+1. Login into `cit.php` container and run `./bin/phpunit`.
 1. `Settings` -> `Languages & Frameworks` -> `PHP` -> `Test frameworks`. Click `+` and `PHPUnit by Remote Intepreter` -> pick interpreter. In `PHPUnit library` tick `Path to phpunit.phar` and type `bin/phpunit`. Click refresh icon. In `Test runner` section set `Default configuration file` to `phpunit.xml` and `Default bootstrap file` to `tests/bootstrap.php`.
 
 # Disclaimer
