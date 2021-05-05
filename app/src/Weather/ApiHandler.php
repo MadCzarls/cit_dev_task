@@ -6,6 +6,7 @@ namespace App\Weather;
 
 use App\DTO\Weather\CountryCity;
 use App\DTO\Weather\TemperatureResult;
+use App\Exception\ApiIncorrectStatusException;
 use App\Factory\Weather\FactoryInterface;
 use App\Factory\Weather\RequestHandlerInterface;
 use App\Factory\Weather\ResponseHandlerInterface;
@@ -94,8 +95,8 @@ class ApiHandler
     {
         $result = $this->client->execute($request);
         if ($result->getStatusCode() !== Response::HTTP_OK) {
-            $this->logger->warning(
-                sprintf("Response code from API '%s' is not 200'", $this->factory->getName()),
+            throw new ApiIncorrectStatusException(
+                sprintf("Response code from API '%s' is not 200'", $this->factory->getName())
             );
         }
 
