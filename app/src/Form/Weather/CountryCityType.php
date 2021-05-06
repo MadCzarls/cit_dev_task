@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Country;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CountryCityType extends AbstractType
@@ -24,11 +25,17 @@ class CountryCityType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Country(),
+                    new Length(['max' => 50]),
                 ],
                 'label' => 'Country code',
                 'help' => 'https://en.wikipedia.org/wiki/ISO_3166-1#Current_codes',
             ])
-            ->add('city', TextType::class, ['constraints' => [new NotBlank()]]);
+            ->add('city', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['max' => 50]),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
