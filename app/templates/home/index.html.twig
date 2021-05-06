@@ -19,15 +19,26 @@
 
     <div class="example-wrapper">
         {{ form_start(form) }}
-        {{ form_row(form.country) }}
-        {{ form_row(form.city) }}
+        <div>
+            {{ form_label(form.country) }}
+            <br/>
+            {{ form_widget(form.country) }}  {{ form_help(form.country) }}
+            {{ form_errors(form.country) }}
+        </div>
+        <hr/>
+        <div>
+            {{ form_label(form.city) }}
+            <br/>
+            {{ form_widget(form.city) }} {{ form_help(form.city) }}
+            {{ form_errors(form.city) }}
+        </div>
 
         <button>Submit</button>
 
         {{ form_end(form) }}
 
         {% if temperature is not null %}
-            Average temperature int this location: <code>{{ temperature }}°C</code>
+            Average temperature in this location: <code>{{ temperature }}°C</code>
         {% endif %}
 
     </div>
