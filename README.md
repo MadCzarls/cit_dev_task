@@ -34,7 +34,7 @@ After that log into container with `docker exec -it cit.php bash`, where `cit.ph
 
 <pre>
 composer install
-php bin/console doctrine:migrations:migrate < confirm
+php bin/console doctrine:migrations:migrate
 </pre>
 
 From this point forward, application should be available under `http://localhost:8050/`.
