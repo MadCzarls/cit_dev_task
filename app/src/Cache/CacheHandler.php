@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Cache;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class CacheHandler
 {
@@ -17,8 +18,13 @@ class CacheHandler
         $this->cache = new FilesystemAdapter(self::CACHE_POOL, self::CACHE_LIFETIME);
     }
 
-    public function getCache(): FilesystemAdapter
+    public function getItem(string $key): ItemInterface
     {
-        return $this->cache;
+        return $this->cache->getItem($key);
+    }
+
+    public function save(ItemInterface $item): void
+    {
+        $this->cache->save($item);
     }
 }

@@ -31,7 +31,7 @@ class TemperatureHandler
     public function getTemperature(CountryCity $countryCity): TemperatureHandlerResult
     {
         $cacheKey = $this->generateCacheKey($countryCity->getCountry() . $countryCity->getCity());
-        $cacheItem = $this->cacheHandler->getCache()->getItem($cacheKey);
+        $cacheItem = $this->cacheHandler->getItem($cacheKey);
 
         if ($cacheItem->isHit()) {
             return new TemperatureHandlerResult(
@@ -55,7 +55,7 @@ class TemperatureHandler
         $temperature = $this->temperatureCalculator->calculate();
 
         $cacheItem->set($temperature);
-        $this->cacheHandler->getCache()->save($cacheItem);
+        $this->cacheHandler->save($cacheItem);
 
         return new TemperatureHandlerResult(
             //may also persist API identifiers from results (available from $result->getApiIdentifier())
