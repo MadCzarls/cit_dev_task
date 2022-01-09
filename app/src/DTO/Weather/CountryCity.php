@@ -6,8 +6,8 @@ namespace App\DTO\Weather;
 
 class CountryCity
 {
-    public ?string $country = null;
-    public ?string $city = null;
+    private ?string $country = null;
+    private ?string $city = null;
 
     public function getCountry(): ?string
     {
