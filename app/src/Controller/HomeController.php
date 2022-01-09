@@ -34,7 +34,7 @@ class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $result = $temperatureHandler->getTemperature($form->getData());
-            } catch (TemperatureNotCalculatedException $exception) {
+            } catch (TemperatureNotCalculatedException) {
                 $this->addFlash(
                     'error',
                     'No results have been returned'
