@@ -7,7 +7,6 @@ namespace App\Factory\Weather\Weatherbit;
 use App\Factory\Weather\FactoryInterface;
 use App\Factory\Weather\RequestHandlerInterface;
 use App\Factory\Weather\ResponseHandlerInterface;
-use JetBrains\PhpStorm\Pure;
 
 class Factory implements FactoryInterface
 {
@@ -42,7 +41,7 @@ class Factory implements FactoryInterface
         );
     }
 
-    #[Pure] public function createResponseHandler(): ResponseHandlerInterface
+    public function createResponseHandler(): ResponseHandlerInterface
     {
         return new ResponseHandler($this->getName());
     }
